@@ -1,0 +1,13 @@
+
+<div>
+    <div *ngIf="loading">
+        LOADING
+    </div>
+    <app-chart
+        *ngIf="!loading"
+        [dimension]="dimension"
+        [basicData]="basicData"
+        [deluxData]="deluxData"
+        [legend]="legend"
+    ></app-chart>
+</div>
