@@ -24,7 +24,7 @@ export class FileService {
                 resolve(arg);
             });
 
-            const filePath = `C:\\Users\\irmantas\\Downloads\\b4cdc97fc2cd8826f581a2c2c059ba4a-96fa6b397fa457c59a8ff1a328c3b37df48ebce9\\${fileName}`;
+            const filePath = `.\\data\\${fileName}`;
             this.ipc.send("readFile", filePath);
         });
     }

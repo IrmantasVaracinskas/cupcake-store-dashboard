@@ -14,29 +14,35 @@ export class AggregateService {
         const map: {[id: string]: number} = {};
 
         switch(option) {
-            case AggregateOption.month:
+            case AggregateOption.Month:
                 for (const data of rawData) {
                     const key = data.date.format('YYYY-MM');
-                    map[key] = map[key] ?? 0 + data.count;
+                    if (map[key] === undefined) {
+                        map[key] = 0;
+                    }
+                    map[key] = map[key] + data.count;
                 }
                 break;
-            case AggregateOption.year:
+            case AggregateOption.Year:
                 for (const data of rawData) {
                     const key = data.date.format('YYYY');
-                    map[key] = map[key] ?? 0 + data.count;
+                    if (map[key] === undefined) {
+                        map[key] = 0;
+                    }
+                    map[key] = map[key] + data.count;
                 }
                 break;
-            case AggregateOption.week:
+            case AggregateOption.Week:
                 for (let i = 0; i < rawData.length;) {
                     let weekCount = 0;
                     do {
                         weekCount += rawData[i].count;
 
                         i++;
-                    } while(i < rawData.length && rawData[i].date.day() != 1)
+                    } while(i < rawData.length && rawData[i].date.day() != 0)
 
                     if (i >= rawData.length) {
-                        const key = this._getFirstDayOfTheWeek(rawData[rawData.length - 1].date)
+                        const key = this._getFirstDayOfTheWeek(moment(rawData[rawData.length - 1].date))
                             .format('YYYY-MM-DD');
                         map[key] = weekCount;
                     } else {
@@ -60,9 +66,17 @@ export class AggregateService {
         return output;
     }
 
+    average(data: DateData[]): number {
+        let sum = 0;
+        for (const temp of data) {
+            sum += temp.count;
+        }
+
+        return sum / data.length;
+    }
     private _getFirstDayOfTheWeek(date: moment.Moment): moment.Moment {
         let resultDate = date;
-        while (resultDate.day() != 1) {
+        while (resultDate.day() != 0) {
             resultDate = resultDate.add(-1, 'day');
         }
 

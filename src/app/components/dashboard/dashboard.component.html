@@ -3,11 +3,41 @@
     <div *ngIf="loading">
         LOADING
     </div>
-    <app-chart
-        *ngIf="!loading"
-        [dimension]="dimension"
-        [basicData]="basicData"
-        [deluxData]="deluxData"
-        [legend]="legend"
-    ></app-chart>
+    <div *ngIf="!loading">
+        <mat-form-field>
+            <mat-label>Aggregation period</mat-label>
+            <mat-select 
+                [(value)]="selectedAggregation" 
+                (selectionChange)="aggregationSelectionChanged($event)"
+            >
+                <mat-option
+                    *ngFor="let aggregation of aggregationSelection"
+                    [value]="aggregation.toString()"
+                >
+                {{aggregation.toString()}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Last entry date</mat-label>
+            <input 
+                matInput 
+                [matDatepicker]="picker" 
+                [formControl]="selectedDate" 
+                (dateChange)="dateChanged()"
+            >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <app-chart
+            [dimension]="dimension"
+            [basicData]="basicData"
+            [deluxData]="deluxData"
+            [totalData]="totalData"
+            [legend]="legend"
+        ></app-chart>
+        <p>{{'Average basic cupcakes count: ' + averageBasic.toFixed(2)}}</p>
+        <p>{{'Average delux cupcakes count: ' + averageDelux.toFixed(2)}}</p>
+        <p>{{'Average total count: ' + averageTotal.toFixed(2)}}</p>
+    </div>
 </div>

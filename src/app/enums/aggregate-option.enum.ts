@@ -1,5 +1,5 @@
 export enum AggregateOption {
-    month,
-    year,
-    week,
+    Year = 'Year',
+    Month = 'Month',
+    Week = 'Week',
 }

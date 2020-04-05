@@ -5,6 +5,12 @@ import { AppComponent } from './app.component';
 import { ChartComponent } from './components/chart/chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from "@angular/material/select";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from "@angular/material/input"
 
 @NgModule({
   declarations: [
@@ -15,7 +21,14 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    BrowserAnimationsModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

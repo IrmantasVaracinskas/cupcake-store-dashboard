@@ -1,11 +1,11 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
-import * as path from 'path'
-import * as url from 'url'
+import { app, BrowserWindow, ipcMain } from 'electron';
+import * as path from 'path';
+import * as url from 'url';
 import * as fs from "fs";
 
-let win: BrowserWindow
+let win: BrowserWindow;
 
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 function createWindow() {
     win = new BrowserWindow({ 
@@ -13,7 +13,7 @@ function createWindow() {
         height: 600, 
         webPreferences: {
             nodeIntegration: true
-        }
+        },
     });
 
     win.loadURL(
@@ -21,16 +21,16 @@ function createWindow() {
             pathname: path.join(__dirname, `/../../dist/angular-electron/index.html`),
             protocol: 'file:',
             slashes: true,
-        })
+        }),
     );
 
     win.webContents.openDevTools();
     win.on('closed', () => {
-        win = null
+        win = null;
     });
 
     ipcMain.on('readFile', (event, arg) => {
         const out = fs.readFileSync(arg);
         win.webContents.send('readFileResponse', out.toString());
-    })
+    });
 }

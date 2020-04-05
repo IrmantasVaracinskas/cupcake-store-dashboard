@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { EChartOption } from 'echarts';
 
 @Component({
@@ -6,15 +6,20 @@ import { EChartOption } from 'echarts';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit{
+export class ChartComponent implements OnChanges{
     @Input() dimension: string[];
     @Input() basicData: number[];
     @Input() deluxData: number[];
+    @Input() totalData: number[];
     @Input() legend: string[];
 
     chartOptions: EChartOption;
 
-    async ngOnInit() {
+    ngOnChanges() {
+        if (!this.dimension || !this.basicData || !this.deluxData || !this.totalData || !this.legend) {
+            return;
+        }
+
         this.chartOptions = {
             xAxis: {
                 type: 'category',
@@ -37,6 +42,11 @@ export class ChartComponent implements OnInit{
                     data: this.deluxData,
                     type: 'line'
                 },
+                {
+                    name: this.legend && this.legend[2],
+                    data: this.totalData,
+                    type: 'line'
+                },
             ],
             dataZoom: [{
                 show: true,
@@ -54,11 +64,5 @@ export class ChartComponent implements OnInit{
                 bottom: 100,
             },
         }
-
-        console.log(JSON.stringify(this.chartOptions));
-    }
-    
-    onChartClick(event) {
-        console.log(event);
     }
 }

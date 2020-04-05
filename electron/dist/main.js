@@ -12,7 +12,7 @@ function createWindow() {
         height: 600,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
     });
     win.loadURL(url.format({
         pathname: path.join(__dirname, `/../../dist/angular-electron/index.html`),
