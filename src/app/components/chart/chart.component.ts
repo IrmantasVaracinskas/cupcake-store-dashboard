@@ -19,6 +19,9 @@ export class ChartComponent implements OnInit{
             xAxis: {
                 type: 'category',
                 data: this.dimension,
+                axisLabel: {
+                    rotate: 30,
+                },
             },
             yAxis: {
                 type: 'value'
@@ -27,18 +30,18 @@ export class ChartComponent implements OnInit{
                 {
                     name: this.legend && this.legend[0],
                     data: this.basicData,
-                    type: 'bar'
+                    type: 'line'
                 },
                 {
                     name: this.legend && this.legend[1],
                     data: this.deluxData,
-                    type: 'bar'
+                    type: 'line'
                 },
             ],
             dataZoom: [{
                 show: true,
                 start: 50,
-                end: 100
+                end: 100,
             }],
             tooltip: {
                 show: true,
@@ -46,7 +49,10 @@ export class ChartComponent implements OnInit{
             legend: {
                 show: Boolean(this.legend),
                 data: this.legend,
-            }
+            },
+            grid: {
+                bottom: 100,
+            },
         }
 
         console.log(JSON.stringify(this.chartOptions));

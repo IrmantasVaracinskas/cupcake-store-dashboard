@@ -4,9 +4,9 @@ import { AggregateService } from 'src/app/services/aggregate/aggregate.service';
 import { AggregateOption } from 'src/app/enums/aggregate-option.enum';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
     dimension: string[];
@@ -27,17 +27,29 @@ export class DashboardComponent implements OnInit {
         const rawBasicData = await this._dataCacheService.basicDateData();
         const rawDeluxData = await this._dataCacheService.deluxDateData();
 
-        const aggregateOption = AggregateOption.month;
+        const aggregateOption = AggregateOption.week;
         const aggregatedBasicData = this._aggregateService.aggregate(rawBasicData, aggregateOption);
         const aggregatedDeluxData = this._aggregateService.aggregate(rawDeluxData, aggregateOption);
 
-        this.dimension = aggregatedBasicData.map(x => x.date.format('YYYY-MM'));
+        const dateFormat = this._getAggregationDateFormat(aggregateOption);
+        this.dimension = aggregatedBasicData.map(x => x.date.format(dateFormat));
         this.basicData = aggregatedBasicData.map(x => x.count);
         this.deluxData = aggregatedDeluxData.map(x => x.count);
 
         this.legend = ['Basic', 'Delux'];
 
         this.loading = false;
+    }
+
+    private _getAggregationDateFormat(aggregationOption: AggregateOption): string {
+        switch(aggregationOption) {
+            case AggregateOption.year:
+                return 'YYYY';
+            case AggregateOption.month:
+                return 'YYYY-MM'
+            case AggregateOption.week:
+                return 'YYYY-MM-DD';
+        }
     }
 
 }
